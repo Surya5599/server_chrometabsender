@@ -28,6 +28,8 @@ function newConnection(socket){
   socket.on('disconnect', disConnect);
 
   function openTab(data){
+    console.log("recieved tab");
+    console.log(data);
     socket.broadcast.emit("tab", data);
   }
 
