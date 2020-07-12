@@ -25,7 +25,13 @@ function newConnection(socket){
   console.log('new Connection: ' + socket.id);
   var ID = socket.id;
   socket.on('openTab', openTab);
+  socket.on('userId', sendUser);
   socket.on('disconnect', disConnect);
+  
+  function sendUser(data){
+    console.log("User: " + data);
+    socket.broadcast.emit("newUser", data);
+  }
 
   function openTab(data){
     console.log("recieved tab");
