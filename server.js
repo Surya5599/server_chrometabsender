@@ -27,6 +27,7 @@ function newConnection(socket){
   socket.on('openTab', openTab);
   socket.on('userId', sendUser);
   socket.on('disconnect', disConnect);
+  socket.on('
   
   function sendUser(data){
     console.log("User: " + data);
@@ -36,6 +37,11 @@ function newConnection(socket){
   function openTab(data){
     console.log("recieved tab");
     socket.broadcast.emit("tab", data);
+  }
+  
+  function closedWindow(data){
+     console.log("LEFT: " + data);
+     socket.broadcast.emit("closedWindow", data);
   }
 
 
