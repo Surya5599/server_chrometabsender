@@ -15,6 +15,9 @@ var io = socket(server);
 
 io.sockets.on('connection', newConnection);
 
+var numpeople = 0;
+var users = [];
+
 
 app.get('/', function(req, res) {
   res.setHeader('Content-Type', 'text/plain');
@@ -44,12 +47,12 @@ function newConnection(socket){
   }
   
   function removeUser(data){
-    console.log("LEAVING: " + data);
+    console.log("LEAVING: " + socket.username);
     socket.broadcast.emit("windowClosed", data);
     socket.disconnect();
   }
 
   function disConnect(socket){
-    console.log('Disconnected Connection: ' + socket.username);
+    console.log('Disconnected Connection: ' + socket.id);
   }
 }
