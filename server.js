@@ -27,7 +27,8 @@ function newConnection(socket){
   socket.on('openTab', openTab);
   socket.on('userId', sendUser);
   socket.on('disconnect', disConnect);
-  socket.on('removing', closedWindow);
+  
+  socket.username = "";
   
   function sendUser(data){
     console.log(socket.userName);
@@ -41,13 +42,11 @@ function newConnection(socket){
     socket.broadcast.emit("tab", data);
   }
   
-  function closedWindow(data){
-     console.log("LEFT: " + data);
-     socket.broadcast.emit("closedWindow", data);
-  }
 
 
   function disConnect(socket){
+    console.log("LEFT: " + socket.username);
+     socket.broadcast.emit("closedWindow", socket.username);
     console.log('Disconnected Connection: ' + socket.username);
   }
 }
