@@ -46,6 +46,6 @@ function newConnection(socket){
 
 
   function disConnect(socket){
-    console.log('Disconnected Connection: ' + ID);
+    console.log('Disconnected Connection: ' + socket.username);
   }
 }
