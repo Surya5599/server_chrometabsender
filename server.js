@@ -15,10 +15,6 @@ var io = socket(server);
 
 io.sockets.on('connection', newConnection);
 
-var numpeople = 0;
-var users = [];
-
-
 app.get('/', function(req, res) {
   res.setHeader('Content-Type', 'text/plain');
   res.send('OK');
