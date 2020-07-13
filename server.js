@@ -35,7 +35,6 @@ function newConnection(socket){
   socket.username = "";
   
   function sendUser(data){
-    console.log(socket.userName);
     socket.username = data;
     console.log("User: " + socket.username);
     socket.broadcast.emit("newUser", data);
