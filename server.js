@@ -30,6 +30,7 @@ function newConnection(socket){
   socket.on('removing', closedWindow);
   
   function sendUser(data){
+    console.log(socket.userName);
     socket.username = data;
     console.log("User: " + socket.username);
     socket.broadcast.emit("newUser", data);
