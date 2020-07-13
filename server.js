@@ -27,7 +27,7 @@ function newConnection(socket){
   socket.on('openTab', openTab);
   socket.on('userId', sendUser);
   socket.on('disconnect', disConnect);
-  socket.on('
+  socket.on('removing', closedWindow);
   
   function sendUser(data){
     console.log("User: " + data);
