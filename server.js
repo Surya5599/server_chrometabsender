@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
 });
 
 function newConnection(socket){
-  console.log('new Connection: ' + socket.username);
+  console.log('new Connection: ' + socket.id);
   var ID = socket.id;
   socket.on('openTab', openTab);
   socket.on('userId', sendUser);
@@ -30,7 +30,8 @@ function newConnection(socket){
   socket.on('removing', closedWindow);
   
   function sendUser(data){
-    console.log("User: " + data);
+    socket.username = data;
+    console.log("User: " + socket.username);
     socket.broadcast.emit("newUser", data);
   }
 
