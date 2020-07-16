@@ -21,33 +21,44 @@ app.get('/', function(req, res) {
 });
 
 function newConnection(socket){
+
   console.log('new Connection: ' + socket.id);
   var ID = socket.id;
+  socket.on('newUser', createUser);
   socket.on('openTab', openTab);
-  socket.on('userId', sendUser);
   socket.on('disconnect', disConnect);
-  socket.on('remove', removeUser);
-  
-  socket.username = "";
-  
-  function sendUser(data){
-    socket.username = data;
-    console.log("User: " + socket.username);
-    socket.broadcast.emit("newUser", data);
+  socket.on('sendInfo', sendBack);
+  socket.on('disconnecting', () => {
+    const rooms = Object.keys(socket.rooms);
+    //console.log(rooms);
+    for(var x = 0; x < rooms.length; x++){
+      if(rooms[x] == socket.id){
+        console.log("same room");
+      }
+      else{
+        socket.broadcast.to(rooms[x]).emit('windowClosed', socket.id);
+      }
+    }
+  });
+
+  function sendBack(data){
+    io.sockets.to(data.iden).emit('addUser', {email: data.email, iden: socket.id});
   }
 
   function openTab(data){
-    console.log("recieved tab");
-    socket.broadcast.emit("tab", data);
-  }
-  
-  function removeUser(data){
-    console.log("LEAVING: " + socket.username);
-    socket.broadcast.emit("windowClosed", data);
-    socket.disconnect();
+    //console.log("recieved tab");
+    io.sockets.to(data.user).emit('tab', data.tab);
   }
 
-  function disConnect(socket){
-    console.log('Disconnected Connection: ' + socket.id);
+  function createUser(data){
+    console.log("User: " + data.email + " join room: " + data.room);
+    socket.join(data.room);
+    var newData = {email: data.email, iden: socket.id};
+    socket.broadcast.to(data.room).emit("userJoined", newData);
   }
+
+  function disConnect(){
+    console.log('Disconnected Connection: ' + ID);
+  }
+
 }
