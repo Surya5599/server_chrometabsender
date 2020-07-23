@@ -21,6 +21,8 @@ app.get('/', function(req, res) {
 });
 
 function newConnection(socket){
+  
+  socket.emit("new");
 
   console.log('new Connection: ' + socket.id);
   var ID = socket.id;
